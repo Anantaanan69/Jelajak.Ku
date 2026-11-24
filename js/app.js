@@ -25,7 +25,18 @@ function showLoginScreen() {
   if (loginView) loginView.style.display = "flex";
   document.body.classList.add("not-authenticated");
   const uInput = document.getElementById("login-username");
-  if (uInput) setTimeout(() => uInput.focus(), 100);
+  const pInput = document.getElementById("login-password");
+  if (uInput) {
+    uInput.value = "";
+    setTimeout(() => {
+      uInput.value = "";
+      uInput.focus();
+    }, 100);
+  }
+  if (pInput) {
+    pInput.value = "";
+    setTimeout(() => { pInput.value = ""; }, 100);
+  }
 }
 
 function showAppScreen() {
