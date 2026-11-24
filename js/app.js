@@ -205,8 +205,14 @@ function renderAll() {
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof initCalendarFilters === "function") initCalendarFilters();
   checkAuth();
+  if (typeof loadDataFromSupabase === "function") {
+    loadDataFromSupabase();
+  }
 });
 if (document.readyState === "complete" || document.readyState === "interactive") {
   if (typeof initCalendarFilters === "function") initCalendarFilters();
   checkAuth();
+  if (typeof loadDataFromSupabase === "function") {
+    loadDataFromSupabase();
+  }
 }
