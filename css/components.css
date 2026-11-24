@@ -1,0 +1,337 @@
+/**
+ * Jelajah.id - UI Components (Cards, Grid, Badges, Table, Gallery)
+ */
+/* GRID DISPLAY (FOOD & TRAVEL) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .place-item {
+      background: #FDFDFE;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .place-item.place-clickable {
+      cursor: pointer;
+    }
+    .place-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .place-thumb {
+      width: 100%;
+      height: 160px;
+      background: #EAEFF7;
+      display: grid;
+      place-items: center;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+    .place-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .place-category-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(4px);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      color: var(--text-main);
+    }
+    .photo-slide-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(17, 20, 34, 0.75);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.5px;
+    }
+    .place-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .place-body h4 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .place-location {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .place-notes {
+      font-size: 12.5px;
+      color: #555E70;
+      margin-top: 6px;
+      line-height: 1.4;
+      background: #F6F8FC;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+    }
+
+    /* TABLE / LIST (WISHLIST & HISTORY) */
+    .table-container {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .table-container th {
+      text-align: left;
+      padding: 12px 14px;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-container td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .table-container tr:last-child td {
+      border-bottom: none;
+    }
+    .table-container tr:hover td {
+      background: #FAFBFD;
+    }
+
+    /* ACTION BUTTONS (WISHLIST & HISTORY) */
+    .btn-action-detail {
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      color: #1E293B;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-action-detail:hover {
+      background: #111422;
+      color: #FFFFFF;
+      border-color: #111422;
+      transform: translateY(-1px);
+    }
+    .btn-action-delete {
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid #FECDD3;
+      border-radius: var(--radius-pill);
+      background: #FFF1F2;
+      color: #E11D48;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: 0 1px 2px rgba(225, 29, 72, 0.06);
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-action-delete:hover {
+      background: #E11D48;
+      color: #FFFFFF;
+      border-color: #E11D48;
+      transform: translateY(-1px);
+    }
+
+    /* CUSTOM CHECKBOX */
+    .checkbox-wrap {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .checkbox-wrap input {
+      display: none;
+    }
+    .custom-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #C4CAD7;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+    .checkbox-wrap input:checked + .custom-box {
+      background: #25C075;
+      border-color: #25C075;
+    }
+    .checkbox-wrap input:checked + .custom-box svg {
+      display: block;
+      stroke: #fff;
+    }
+    .custom-box svg {
+      display: none;
+      width: 14px;
+      height: 14px;
+      stroke-width: 3;
+    }
+
+    /* BADGES */
+    .tag-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .tag-food, .tag-kuliner { background: #E6F8EE; color: #169E5F; border: 1px solid #C4F1D7; }
+    .tag-travel, .tag-wisata { background: #EDF4FF; color: #2B68E8; border: 1px solid #D0E2FF; }
+    .tag-done { background: #E1F8ED; color: #169E5F; border: 1px solid #C4F1D7; }
+
+    /* DOCUMENTATION GALLERY IN HISTORY */
+    .media-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .media-card {
+      width: 110px;
+      height: 80px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #000;
+      position: relative;
+    }
+    .media-card img, .media-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .media-btn-add {
+      width: 110px;
+      height: 80px;
+      border: 2px dashed #C5CDDD;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: #FAFBFD;
+    }
+    .media-btn-add:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* RESPONSIVE STYLING (MOBILE & TABLET) */
+    @media (max-width: 768px) {
+      .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+      }
+      .place-thumb {
+        height: 160px;
+      }
+      .place-body {
+        padding: 14px;
+      }
+      .table-container th,
+      .table-container td {
+        padding: 10px 12px;
+        font-size: 12.5px;
+      }
+      .btn-action-detail,
+      .btn-action-delete {
+        padding: 5px 12px;
+        font-size: 11.5px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .place-thumb {
+        height: 175px;
+      }
+      .place-body h4 {
+        font-size: 15px;
+      }
+      .place-location {
+        font-size: 12px;
+      }
+      .media-card,
+      .media-btn-add {
+        width: 95px;
+        height: 72px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .place-body {
+        padding: 12px;
+      }
+      .place-body h4 {
+        font-size: 14px;
+      }
+      .place-location {
+        font-size: 11.5px;
+      }
+      .place-notes {
+        font-size: 11.5px;
+        padding: 6px 8px;
+      }
+      .table-container th {
+        font-size: 11px;
+        padding: 8px 10px;
+      }
+      .table-container td {
+        font-size: 11.5px;
+        padding: 8px 10px;
+      }
+      .tag-badge {
+        font-size: 10.5px;
+        padding: 2px 7px;
+      }
+      .btn-action-detail,
+      .btn-action-delete {
+        padding: 4px 10px;
+        font-size: 11px;
+        height: 28px;
+      }
+      .custom-box {
+        width: 19px;
+        height: 19px;
+        border-radius: 6px;
+      }
+      .custom-box svg {
+        width: 12px;
+        height: 12px;
+      }
+    }

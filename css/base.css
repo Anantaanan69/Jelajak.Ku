@@ -1,0 +1,1347 @@
+/**
+ * Jelajah Ku - Base Layout, Sidebar (Sesuai Referensi Gambar), Mobile Responsive & Typography
+ */
+
+/* SIDEBAR */
+aside {
+  width: 250px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 0 20px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-shrink: 0;
+  overflow: visible !important;
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+/* MINIMIZE SIDEBAR (Lebar 88px agar logo dan tombol toggle tidak mepet) */
+body.sidebar-minimized aside {
+  width: 88px;
+}
+
+/* BRAND HEADER SEJAJAR DENGAN GARIS PEMISAH HORIZONTAL */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.brand-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  background: #111422;
+  color: #FFFFFF;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.2px;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+body.sidebar-minimized .brand {
+  padding: 0;
+  justify-content: center;
+}
+
+body.sidebar-minimized .brand-info {
+  justify-content: center;
+}
+
+body.sidebar-minimized .brand-name {
+  display: none !important;
+}
+
+/* TOMBOL TOGGLE SIDEBAR DI ATAS SEJAJAR GARIS KISI SEPERTI REFERENSI GAMBAR */
+.btn-sidebar-toggle-brand {
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(18, 28, 56, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+  z-index: 120;
+}
+
+.btn-sidebar-toggle-brand:hover {
+  background: #F4F6FB;
+  border-color: #CBD5E1;
+  color: #111422;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.btn-sidebar-toggle-brand svg {
+  transition: transform 0.25s ease;
+}
+
+/* Saat minimized, icon '<' berbalik arah menjadi '>' */
+body.sidebar-minimized .btn-sidebar-toggle-brand svg {
+  transform: rotate(180deg);
+}
+
+/* LIST MENU NAVIGASI */
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #4B5563;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.nav-btn:hover {
+  background: #F1F4F9;
+  color: #111422;
+}
+
+/* 3. MENU YANG DIPILIH MAKA AKAN ADA BADGE WARNA HITAM */
+.nav-btn.active {
+  background: #111422 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(17, 20, 34, 0.18);
+}
+
+.nav-btn.active svg {
+  stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.nav-btn.active span {
+  color: #FFFFFF !important;
+}
+
+.nav-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  flex-shrink: 0;
+  transition: stroke 0.15s ease;
+}
+
+/* Nav button saat sidebar minimized */
+body.sidebar-minimized .nav-list {
+  padding: 0 10px;
+}
+
+body.sidebar-minimized .nav-btn {
+  justify-content: center;
+  padding: 0;
+  border-radius: 12px;
+  width: 46px;
+  height: 46px;
+  margin: 0 auto;
+}
+
+body.sidebar-minimized .nav-btn span {
+  display: none !important;
+}
+
+body.sidebar-minimized .nav-btn.active {
+  background: #111422 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(17, 20, 34, 0.25) !important;
+}
+
+body.sidebar-minimized .nav-btn.active svg {
+  stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+/* SIDEBAR FOOTER: TOMBOL LOG OUT */
+.sidebar-footer {
+  padding: 16px 14px 0 14px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.btn-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  border: 1px solid #FED7D7;
+  background: #FFF5F5;
+  color: #DC2626;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: #FEE2E2;
+  border-color: #FCA5A5;
+}
+
+.btn-logout svg {
+  stroke: #DC2626;
+  flex-shrink: 0;
+}
+
+body.sidebar-minimized .sidebar-footer {
+  padding: 16px 10px 0 10px;
+}
+
+body.sidebar-minimized .btn-logout {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+body.sidebar-minimized .btn-logout span {
+  display: none !important;
+}
+
+/* MAIN CONTENT */
+main {
+  flex: 1 1 0%;
+  min-width: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  box-sizing: border-box;
+}
+
+.app-topbar {
+  height: 64px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.topbar-welcome {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: -0.2px;
+}
+
+.status-indicator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #169E5F;
+  background: #E8F8F0;
+  border: 1px solid #C4F1D7;
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #169E5F;
+  display: inline-block;
+}
+
+.main-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 32px;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   CORE BUTTONS & CONTROLS (SEARCH, FILTER, PILLS, ACTIONS)
+   ============================================================ */
+.btn-pill {
+  border-radius: var(--radius-pill);
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  font-family: inherit;
+  line-height: 1.3;
+}
+
+.btn-dark {
+  background: #111422 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(17, 20, 34, 0.18);
+}
+
+.btn-dark:hover {
+  background: #252A42 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(17, 20, 34, 0.25);
+}
+
+.btn-dark:active {
+  transform: translateY(0);
+}
+
+.btn-light {
+  background: #FFFFFF;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(18, 28, 56, 0.05);
+}
+
+.btn-light:hover {
+  background: #F8FAFD;
+  border-color: #CBD5E1;
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+/* Search bar & filter dropdowns */
+.card-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(18, 28, 56, 0.04);
+  min-width: 230px;
+  transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #111422;
+  box-shadow: 0 0 0 3px rgba(17, 20, 34, 0.08);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 13px;
+  width: 100%;
+  background: transparent;
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+.search-box input::placeholder {
+  color: #94A3B8;
+}
+
+.filter-select {
+  height: 38px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(18, 28, 56, 0.04);
+  font-family: inherit;
+  min-width: 125px;
+}
+
+.filter-select:hover {
+  border-color: #94A3B8;
+}
+
+.filter-select:focus {
+  border-color: #111422;
+  box-shadow: 0 0 0 3px rgba(17, 20, 34, 0.08);
+}
+
+/* Tombol "Bulan Sekarang" di Kalender */
+.btn-current-month {
+  background: #FFFFFF;
+  color: #111422;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 1px 3px rgba(18, 28, 56, 0.05);
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+
+.btn-current-month:hover {
+  background: #111422;
+  color: #FFFFFF;
+  border-color: #111422;
+  box-shadow: 0 2px 8px rgba(17, 20, 34, 0.16);
+  transform: translateY(-1px);
+}
+
+/* Action buttons in tables (Wishlist & History) */
+.btn-action-detail {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  color: #1E293B;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action-detail:hover {
+  background: #111422;
+  color: #FFFFFF;
+  border-color: #111422;
+  transform: translateY(-1px);
+}
+
+.btn-action-delete {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #FECDD3;
+  border-radius: var(--radius-pill);
+  background: #FFF1F2;
+  color: #E11D48;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 2px rgba(225, 29, 72, 0.06);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action-delete:hover {
+  background: #E11D48;
+  color: #FFFFFF;
+  border-color: #E11D48;
+  transform: translateY(-1px);
+}
+
+/* Tombol Masuk ke Aplikasi pada Login */
+.btn-login-submit {
+  width: 100%;
+  justify-content: center;
+  padding: 13px 20px;
+  font-size: 14.5px;
+  font-weight: 700;
+  border-radius: 12px;
+  background: #111422 !important;
+  color: #FFFFFF !important;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(17, 20, 34, 0.25);
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  letter-spacing: -0.2px;
+  font-family: inherit;
+}
+
+.btn-login-submit:hover {
+  background: #252A42 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(17, 20, 34, 0.3);
+}
+
+.btn-login-submit:active {
+  transform: translateY(0);
+}
+
+/* STATS BANNER CARDS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.stat-card.green { background: #E8F8F0; border: 1px solid #C4F1D7; }
+.stat-card.blue { background: #EDF4FF; border: 1px solid #D0E2FF; }
+.stat-card.yellow { background: #FEF9E7; border: 1px solid #FCE8AA; }
+.stat-card.gray { background: #F2F4F8; border: 1px solid #DFE3EB; }
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.stat-info p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.stat-info h2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* SECTIONS */
+.section-view {
+  display: none;
+}
+
+.section-view.active {
+  display: block;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-head h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* TABLE RESPONSIVE WRAPPER */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-md);
+}
+
+/* LOGIN SCREEN STYLES */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0F121E 0%, #171E30 50%, #111422 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+}
+
+.login-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: 34px 28px;
+  width: 100%;
+  max-width: 390px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  animation: none;
+  transition: none;
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.login-brand h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.4px;
+}
+
+.login-brand p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FEECEE;
+  color: #D63333;
+  border: 1px solid #FCD3D7;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.login-hint {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: #F8F9FC;
+  padding: 9px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px dashed #D5DCE8;
+}
+
+/* MOBILE STICKY TOP MENU (HIDE / UNHIDE) */
+.mobile-sticky-nav {
+  display: none;
+}
+
+/* MOBILE RESPONSIVE ADAPTATIONS (<= 768px) */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  /* Sembunyikan sidebar drawer di HP karena digantikan sticky top navbar */
+  aside,
+  .sidebar-backdrop,
+  .btn-sidebar-toggle,
+  .btn-sidebar-edge-toggle {
+    display: none !important;
+  }
+
+  .mobile-sticky-nav {
+    display: block;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 68px;
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(18, 28, 56, 0.07);
+    z-index: 1000;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 100%;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .mobile-brand-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mobile-header-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 17px !important;
+    border-radius: 10px !important;
+    flex-shrink: 0;
+  }
+
+  .mobile-brand-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text-main);
+  }
+
+  /* Tombol hide/unhide mobile: HANYA ICON TANPA KATA-KATA */
+  .btn-mobile-menu-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #F1F4F9;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-main);
+    padding: 0;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-mobile-menu-toggle:hover {
+    background: #E2E8F0;
+    border-color: #CBD5E1;
+    transform: scale(1.04);
+  }
+
+  .btn-mobile-menu-toggle svg {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Saat menu terbuka (unhidden), icon chevron berputar 180deg */
+  .mobile-sticky-nav:not(.is-collapsed) .btn-mobile-menu-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  /* LIST MENU FLOATING OVERLAY: MELAYANG DI ATAS KONTEN (TIDAK MENDORONG KONTEN KE BAWAH) */
+  .mobile-menu-vertical {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 20px 22px 20px;
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 16px 36px rgba(18, 28, 56, 0.16);
+    max-height: calc(85vh - 70px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 1001;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Backdrop blur overlay ketika menu mobile terbuka */
+  .mobile-menu-backdrop {
+    display: none;
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 20, 34, 0.35);
+    backdrop-filter: blur(2px);
+    z-index: 998;
+  }
+
+  .mobile-sticky-nav:not(.is-collapsed) ~ .mobile-menu-backdrop {
+    display: block;
+  }
+
+  /* Ketika disembunyikan (hide) */
+  .mobile-sticky-nav.is-collapsed .mobile-menu-vertical {
+    display: none;
+  }
+
+  .mobile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid #EDF1F7;
+    background: #FAFBFD;
+    color: var(--text-main);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-menu-item:hover {
+    background: #F0F4FA;
+    border-color: #CBD5E1;
+  }
+
+  .mobile-menu-item.active {
+    background: #111422;
+    color: #FFFFFF;
+    border-color: #111422;
+    box-shadow: 0 2px 8px rgba(17, 20, 34, 0.18);
+  }
+
+  .mobile-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #EEF2F7;
+    color: var(--text-main);
+    flex-shrink: 0;
+  }
+
+  .mobile-menu-item.active .mobile-item-icon {
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
+  }
+
+  .mobile-menu-item.mobile-logout-item {
+    margin-top: 6px;
+    border-color: #FEE2E2;
+    background: #FFF5F5;
+    color: #DC2626;
+  }
+
+  .mobile-menu-item.mobile-logout-item:hover {
+    background: #FEE2E2;
+  }
+
+  .mobile-item-icon.logout-icon {
+    background: #FEE2E2;
+    color: #DC2626;
+  }
+
+  .mobile-nav-btn.btn-logout-mobile:hover {
+    background: #DC2626;
+    color: #FFFFFF;
+  }
+
+  .app-topbar {
+    display: none !important;
+  }
+
+  main {
+    padding: 0;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .main-content-scroll {
+    padding: 88px 18px 32px 18px !important;
+    box-sizing: border-box;
+  }
+
+  .top-header {
+    margin-bottom: 18px;
+  }
+
+  .greeting h1 {
+    font-size: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    border-radius: var(--radius-lg);
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .stat-info p {
+    font-size: 11.5px;
+  }
+
+  .stat-info h2 {
+    font-size: 20px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 18px;
+  }
+
+  .card-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .card-head-actions,
+  .card-head > div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch !important;
+    width: 100%;
+    gap: 8px !important;
+  }
+
+  .card-head-actions .search-box,
+  .card-head .search-box {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 36px !important;
+    padding: 0 14px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border-radius: var(--radius-pill) !important;
+  }
+
+  .card-head-actions .search-box input,
+  .card-head .search-box input {
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    background: transparent !important;
+    width: 100% !important;
+    border: none !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .card-head-actions .search-box svg,
+  .card-head .search-box svg {
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .card-head-actions .filter-select,
+  .card-head select {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 36px !important;
+    padding: 0 14px !important;
+    font-size: 12.5px !important;
+    box-sizing: border-box !important;
+    border-radius: var(--radius-pill) !important;
+  }
+
+  .card-head-actions .btn-pill,
+  .card-head .btn-pill {
+    width: 100% !important;
+    height: 36px !important;
+    padding: 0 16px !important;
+    font-size: 12.5px !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .table-container {
+    min-width: 680px;
+  }
+
+  /* Compact calendar for phone */
+  .calendar-wrapper {
+    padding: 14px 10px !important;
+  }
+
+  .calendar-topbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .calendar-controls {
+    display: grid !important;
+    grid-template-columns: 36px 1.4fr 1fr 36px !important;
+    gap: 6px !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+
+  .btn-current-month {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 8px 12px !important;
+    font-size: 12.5px !important;
+    height: 38px !important;
+    box-sizing: border-box !important;
+  }
+
+  .calendar-nav-btn {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 13px !important;
+    flex-shrink: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .calendar-select {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 7px 8px !important;
+    font-size: 12px !important;
+    height: 36px !important;
+    box-sizing: border-box !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .calendar-grid-header {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    margin-bottom: 4px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .calendar-header-day {
+    font-size: 10.5px !important;
+    padding: 3px 0 !important;
+    text-align: center !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .calendar-grid-days {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .calendar-day-cell {
+    min-height: 56px !important;
+    height: 100% !important;
+    padding: 3px 2px !important;
+    border-radius: 6px !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .calendar-day-header {
+    justify-content: center !important;
+    margin-bottom: 2px !important;
+    min-width: 0 !important;
+  }
+
+  .calendar-day-number {
+    font-size: 11px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .day-plan-count {
+    display: none !important;
+  }
+
+  .calendar-events-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .calendar-holiday-badge {
+    font-size: 9px !important;
+    padding: 2px 4px !important;
+    gap: 3px !important;
+    border-radius: 4px !important;
+    min-height: 18px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .calendar-holiday-badge span {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .calendar-event-pill {
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+    gap: 3px !important;
+    border-radius: 5px !important;
+    min-height: 22px !important;
+    margin-top: 0 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    font-weight: 600 !important;
+  }
+
+  .calendar-event-pill span {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .calendar-holiday-badge span:first-child,
+  .calendar-event-pill span:first-child {
+    font-size: 10px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* Responsive Typography & Mobile UI for phones (e.g. Samsung Galaxy 360px - 414px) */
+@media (max-width: 480px) {
+  html, body {
+    font-size: 13.5px;
+  }
+
+  .main-content-scroll {
+    padding: 76px 12px 24px 12px !important;
+  }
+
+  .greeting h1 {
+    font-size: 17px !important;
+  }
+
+  .greeting p {
+    font-size: 11.5px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .stat-card {
+    padding: 10px 12px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .stat-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .stat-info p {
+    font-size: 10.5px;
+    line-height: 1.2;
+  }
+
+  .stat-info h2 {
+    font-size: 17px;
+    line-height: 1.2;
+  }
+
+  .card {
+    padding: 14px 12px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+
+  .card-head {
+    gap: 10px;
+  }
+
+  .card-head h3 {
+    font-size: 15px !important;
+  }
+
+  .card-head p {
+    font-size: 11.5px !important;
+  }
+
+  .card-head-actions .search-box,
+  .card-head .search-box,
+  .card-head-actions .filter-select,
+  .card-head select,
+  .card-head .btn-pill,
+  .card-head-actions .btn-pill {
+    font-size: 12px !important;
+    height: 34px !important;
+    padding: 0 12px !important;
+  }
+
+  .card-head-actions .search-box input,
+  .card-head .search-box input {
+    font-size: 12px !important;
+  }
+
+  .calendar-wrapper {
+    padding: 12px 8px !important;
+    border-radius: 14px !important;
+  }
+
+  .calendar-title-box h3 {
+    font-size: 14px !important;
+  }
+
+  .calendar-title-box p {
+    font-size: 11px !important;
+  }
+
+  .calendar-controls {
+    grid-template-columns: 32px 1.4fr 1fr 32px !important;
+    gap: 4px !important;
+  }
+
+  .btn-current-month {
+    height: 34px !important;
+    font-size: 11.5px !important;
+    padding: 6px 10px !important;
+  }
+
+  .calendar-nav-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+
+  .calendar-select {
+    height: 32px !important;
+    font-size: 11.5px !important;
+    padding: 5px 6px !important;
+  }
+
+  .calendar-header-day {
+    font-size: 9.5px !important;
+    padding: 2px 0 !important;
+  }
+
+  .calendar-day-number {
+    font-size: 10.5px !important;
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .calendar-holiday-badge {
+    font-size: 8.5px !important;
+    padding: 2px 4px !important;
+    min-height: 17px !important;
+    border-radius: 4px !important;
+    line-height: 1.2 !important;
+  }
+
+  .calendar-event-pill {
+    font-size: 9.5px !important;
+    padding: 3px 5px !important;
+    min-height: 21px !important;
+    border-radius: 4px !important;
+    line-height: 1.2 !important;
+    font-weight: 600 !important;
+  }
+
+  .calendar-holiday-badge span:first-child,
+  .calendar-event-pill span:first-child {
+    font-size: 9.5px !important;
+  }
+
+  .login-card {
+    padding: 24px 18px !important;
+    border-radius: 18px !important;
+    max-width: 92vw !important;
+  }
+
+  .login-card h2 {
+    font-size: 19px !important;
+  }
+
+  .login-card p {
+    font-size: 12px !important;
+  }
+}

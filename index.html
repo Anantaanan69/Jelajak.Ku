@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jelajah Ku - Travel & Culinary Tracker</title>
+  <!-- Modular CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/calendar.css">
+</head>
+<body>
+
+  <!-- LOGIN SCREEN (GATEKEEPER) -->
+  <div id="view-login" class="login-overlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon" style="width:48px; height:48px; font-size:24px; border-radius:14px; margin:0 auto 12px;">J</div>
+        <h2>Jelajah Ku</h2>
+        <p>Travel & Culinary Tracker</p>
+      </div>
+
+      <form id="form-login" onsubmit="handleLoginSubmit(event)">
+        <div id="login-error-msg" class="login-error" style="display:none;">
+          <span>⚠️</span>
+          <span id="login-error-text">Username atau password salah!</span>
+        </div>
+
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" class="form-control" placeholder="Masukkan username" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="login-password" class="form-control" placeholder="Masukkan password" required autocomplete="current-password" style="padding-right:42px;">
+            <button type="button" id="btn-toggle-password" onclick="togglePasswordVisibility()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:transparent; border:none; color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px; transition:color 0.2s;" title="Tampilkan password">
+              <svg id="eye-icon-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg id="eye-icon-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                <line x1="2" y1="2" x2="22" y2="22"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn-login-submit btn-pill btn-dark">
+          Masuk ke Aplikasi
+        </button>
+      </form>
+
+      <div class="login-hint">
+        Akun login: username: <b>username</b> | password: <b>password</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKDROP OVERLAY UNTUK SIDEBAR MOBILE -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <aside id="main-sidebar">
+    <div>
+      <div class="brand">
+        <div class="brand-info">
+          <div class="brand-icon">J</div>
+          <div class="brand-name">Jelajah Ku</div>
+        </div>
+        <!-- TOMBOL HIDE / UNHIDE SIDEBAR SEJAJAR DENGAN JUDUL APLIKASI (< / >) -->
+        <button type="button" id="btn-toggle-sidebar" class="btn-sidebar-toggle-brand" onclick="toggleSidebar()" title="Hide / Unhide Sidebar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')" title="Dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Dashboard</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="kuliner" onclick="switchTab('kuliner')" title="Tempat Makan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            <span>Tempat Makan</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="wisata" onclick="switchTab('wisata')" title="Tempat Wisata">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+            <span>Tempat Wisata</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="wishlist" onclick="switchTab('wishlist')" title="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+            <span>Wishlist</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="history" onclick="switchTab('history')" title="History">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>History</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SIDEBAR FOOTER: TOMBOL LOG OUT -->
+    <div class="sidebar-footer">
+      <button type="button" class="btn-logout" onclick="handleLogout()" title="Log Out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span>Log Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEW -->
+  <main>
+    <!-- MOBILE STICKY TOPBAR & MENU (STUCK DI ATAS DENGAN HIDE/UNHIDE ICON ONLY & FLOATING OVERLAY MENU) -->
+    <div id="mobile-sticky-topbar" class="mobile-sticky-nav is-collapsed">
+      <div class="mobile-nav-header">
+        <div class="mobile-brand-box">
+          <div class="brand-icon mobile-header-icon">J</div>
+          <span class="mobile-brand-title">Jelajah Ku</span>
+        </div>
+        <!-- TOMBOL HIDE/UNHIDE HANYA ICON TANPA KATA-KATA -->
+        <button type="button" id="btn-mobile-menu-toggle" class="btn-mobile-menu-toggle" onclick="toggleMobileMenu()" title="Tampilkan / Sembunyikan Menu">
+          <svg id="mobile-menu-toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- LIST MENU TAMPIL KE BAWAH (FLOATING OVERLAY DI ATAS HALAMAN CONTENT) -->
+      <div id="mobile-menu-items" class="mobile-menu-vertical">
+        <button type="button" class="mobile-menu-item active" data-tab="dashboard" onclick="selectMobileTab('dashboard')">
+          <div class="mobile-item-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <span>Dashboard</span>
+        </button>
+
+        <button type="button" class="mobile-menu-item" data-tab="kuliner" onclick="selectMobileTab('kuliner')">
+          <div class="mobile-item-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+          </div>
+          <span>Tempat Makan</span>
+        </button>
+
+        <button type="button" class="mobile-menu-item" data-tab="wisata" onclick="selectMobileTab('wisata')">
+          <div class="mobile-item-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+          </div>
+          <span>Tempat Wisata</span>
+        </button>
+
+        <button type="button" class="mobile-menu-item" data-tab="wishlist" onclick="selectMobileTab('wishlist')">
+          <div class="mobile-item-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+          </div>
+          <span>Wishlist</span>
+        </button>
+
+        <button type="button" class="mobile-menu-item" data-tab="history" onclick="selectMobileTab('history')">
+          <div class="mobile-item-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <span>History</span>
+        </button>
+
+        <button type="button" class="mobile-menu-item mobile-logout-item" onclick="handleLogout()">
+          <div class="mobile-item-icon logout-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </div>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu-backdrop" class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
+    <!-- TOP HEADER ROW SEPERTI REFERENSI GAMBAR -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <span class="topbar-welcome">Rencanakan dan catat perjalanan serta kuliner favoritmu</span>
+      </div>
+      <div class="topbar-right"></div>
+    </header>
+    <div class="main-content-scroll">
+
+    <!-- STATS BANNER CARDS (DASHBOARD & OTHER TABS) -->
+    
+
+    <!-- TAB: DASHBOARD -->
+    <div id="view-dashboard" class="section-view active">
+      <!-- STATS BANNER CARDS DI DASHBOARD -->
+      <div class="stats-grid" id="dashboard-stats-grid">
+        <div class="stat-card green">
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#169E5F" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+          </div>
+          <div class="stat-info">
+            <p>Tempat Makan</p>
+            <h2 id="stat-count-kuliner">0</h2>
+          </div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B68E8" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+          </div>
+          <div class="stat-info">
+            <p>Tempat Wisata</p>
+            <h2 id="stat-count-wisata">0</h2>
+          </div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D99400" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+          </div>
+          <div class="stat-info">
+            <p>Wishlist Aktif</p>
+            <h2 id="stat-count-wishlist">0</h2>
+          </div>
+        </div>
+        <div class="stat-card gray">
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5C6577" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <p>History</p>
+            <h2 id="stat-count-history">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- KALENDER BULANAN WISHLIST -->
+      <div class="calendar-wrapper">
+        <div class="calendar-topbar">
+          <div class="calendar-title-box">
+            <h3>📅 Kalender Rencana Perjalanan</h3>
+            <p>Jadwal rencana perjalanan & kuliner dari Wishlist aktif Anda</p>
+          </div>
+          <div class="calendar-controls">
+            <button type="button" id="btn-current-month" class="btn-current-month" onclick="goToCurrentMonth()">
+              Bulan Sekarang
+            </button>
+            <button class="calendar-nav-btn" onclick="prevCalendarMonth()" title="Bulan Sebelumnya">❮</button>
+            <select id="calendar-filter-month" class="calendar-select" onchange="handleCalendarMonthChange(this.value)"></select>
+            <select id="calendar-filter-year" class="calendar-select" onchange="handleCalendarYearChange(this.value)"></select>
+            <button class="calendar-nav-btn" onclick="nextCalendarMonth()" title="Bulan Berikutnya">❯</button>
+          </div>
+        </div>
+
+        <div class="calendar-grid-header">
+          <div class="calendar-header-day sunday">Min</div>
+          <div class="calendar-header-day">Sen</div>
+          <div class="calendar-header-day">Sel</div>
+          <div class="calendar-header-day">Rab</div>
+          <div class="calendar-header-day">Kam</div>
+          <div class="calendar-header-day">Jum</div>
+          <div class="calendar-header-day">Sab</div>
+        </div>
+
+        <div class="calendar-grid-days" id="calendar-grid-days"></div>
+
+        <div class="calendar-legend">
+          <span style="font-weight:700;">Keterangan:</span>
+          <div class="legend-item">
+            <span class="legend-dot holiday"></span>
+            <span>Tanggal Merah / Libur Nasional (🇮🇩)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot kuliner"></span>
+            <span>Tempat Makan (🍽️)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot wisata"></span>
+            <span>Tempat Wisata (🏖️)</span>
+          </div>
+          <span style="margin-left:auto; font-style:italic;">*Klik nama rencana untuk melihat detail</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: KULINER -->
+    <div id="view-kuliner" class="section-view">
+      <div class="card">
+        <div class="card-head" style="flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h3>Daftar Tempat Makan (<span id="kuliner-title-count">0</span>)</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Klik card untuk melihat informasi detail dan rute</p>
+          </div>
+          <div class="card-head-actions">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E95A5" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="search-kuliner-input" placeholder="Cari tempat makan..." oninput="handleSearchKuliner(this.value)">
+            </div>
+            <select id="filter-kuliner-city" class="filter-select" onchange="handleFilterCity(this.value)">
+              <option value="">Semua Kota</option>
+            </select>
+            <button class="btn-pill btn-dark" onclick="openAddKulinerModal()">
+              Tambah Tempat Makan
+            </button>
+          </div>
+        </div>
+        <div class="cards-grid" id="grid-kuliner"></div>
+      </div>
+    </div>
+
+    <!-- TAB: WISATA -->
+    <div id="view-wisata" class="section-view">
+      <div class="card">
+        <div class="card-head" style="flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h3>Daftar Tempat Wisata (<span id="wisata-title-count">0</span>)</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Klik card untuk melihat informasi detail dan rute</p>
+          </div>
+          <div class="card-head-actions">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E95A5" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="search-wisata-input" placeholder="Cari tempat wisata..." oninput="handleSearchWisata(this.value)">
+            </div>
+            <select id="filter-wisata-city" class="filter-select" onchange="handleFilterCityWisata(this.value)">
+              <option value="">Semua Kota</option>
+            </select>
+            <button class="btn-pill btn-dark" onclick="openAddWisataModal()">
+              Tambah Tempat Wisata
+            </button>
+          </div>
+        </div>
+        <div class="cards-grid" id="grid-wisata"></div>
+      </div>
+    </div>
+
+    <!-- TAB: WISHLIST -->
+    <!-- TAB: WISHLIST -->
+    <div id="view-wishlist" class="section-view">
+      <div class="card">
+        <div class="card-head" style="flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h3>Wishlist Perjalanan & Kuliner (<span id="wishlist-title-count">0</span>)</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Centang checkbox untuk menyelesaikan kunjungan & memindahkan ke Menu History</p>
+          </div>
+          <div class="card-head-actions">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E95A5" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="search-wishlist-input" placeholder="Cari wishlist..." oninput="handleSearchWishlist(this.value)">
+            </div>
+            <select id="filter-wishlist-category" class="filter-select" onchange="handleFilterWishlistCategory(this.value)">
+              <option value="">Semua Kategori</option>
+              <option value="Tempat Makan">Tempat Makan</option>
+              <option value="Tempat Wisata">Tempat Wisata</option>
+            </select>
+            <select id="filter-wishlist-city" class="filter-select" onchange="handleFilterWishlistCity(this.value)">
+              <option value="">Semua Kota</option>
+            </select>
+            <button class="btn-pill btn-dark" onclick="openAddWishlistModal()">Tambah Wishlist</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table-container">
+            <thead>
+              <tr>
+                <th width="40">#</th>
+                <th>Nama Tempat / Destinasi</th>
+                <th>Kategori</th>
+                <th>Kota</th>
+                <th>Lokasi</th>
+                <th>Tanggal Berangkat</th>
+                <th>Catatan Rencana</th>
+                <th width="120">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="wishlist-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: HISTORY -->
+    <div id="view-history" class="section-view">
+      <div class="card">
+        <div class="card-head" style="flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h3>History (<span id="history-title-count">0</span>)</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Daftar perjalanan & tempat yang telah selesai dikunjungi</p>
+          </div>
+          <div class="card-head-actions">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E95A5" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="search-history-input" placeholder="Cari history..." oninput="handleSearchHistory(this.value)">
+            </div>
+            <select id="filter-history-category" class="filter-select" onchange="handleFilterHistoryCategory(this.value)">
+              <option value="">Semua Kategori</option>
+              <option value="Tempat Makan">Tempat Makan</option>
+              <option value="Tempat Wisata">Tempat Wisata</option>
+            </select>
+            <select id="filter-history-city" class="filter-select" onchange="handleFilterHistoryCity(this.value)">
+              <option value="">Semua Kota</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table-container">
+            <thead>
+              <tr>
+                <th width="45">No</th>
+                <th>Nama Tempat / Destinasi</th>
+                <th>Kategori</th>
+                <th>Kota</th>
+                <th>Lokasi</th>
+                <th>Tanggal Selesai</th>
+                <th>Catatan</th>
+                <th width="80">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+
+  <!-- MODAL TAMBAH & EDIT MAKAN (KHUSUS TEMPAT MAKAN) -->
+  <div class="modal-backdrop" id="modal-add-kuliner">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modal-kuliner-title">Tambah Tempat Makan</h3>
+        <button class="btn-close" onclick="closeModal('modal-add-kuliner')">✕</button>
+      </div>
+      <form id="form-add-kuliner" onsubmit="handleSaveKuliner(event)">
+        <input type="hidden" id="kuliner-edit-id">
+        <div class="form-group">
+          <label>Nama Tempat Makan *</label>
+          <input type="text" id="kuliner-name" class="form-control" placeholder="Contoh: Bebek Tepi Sawah" required>
+        </div>
+        <div class="form-group">
+          <label>Kota *</label>
+          <input type="text" id="kuliner-city" class="form-control" placeholder="Contoh: Bali / Bandung / Yogyakarta" required>
+        </div>
+        <div class="form-group">
+          <label>Lokasi (Link Google Maps) *</label>
+          <input type="text" id="kuliner-location" class="form-control" placeholder="Contoh: https://maps.app.goo.gl/... atau alamat maps" required>
+        </div>
+        <div class="form-group">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label style="margin-bottom:0;">Link Video (Bisa Lebih dari 1)</label>
+            <button type="button" class="btn-pill btn-light" style="font-size:11.5px; padding:3px 10px; border:1px solid var(--border);" onclick="addKulinerVideoInput()">+ Tambah Video</button>
+          </div>
+          <div id="kuliner-video-inputs-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+        <div class="form-group">
+          <label>Foto Tempat / Menu (Bisa Pilih Lebih dari 1 Foto)</label>
+          <label class="file-dropzone" for="kuliner-photo-input">
+            <span id="kuliner-file-label">📷 Klik untuk upload 1 atau lebih foto (PNG, JPG)</span>
+            <input type="file" id="kuliner-photo-input" accept="image/*" multiple onchange="handleKulinerPhotosPreview(this)">
+          </label>
+          <div id="kuliner-preview-gallery" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button type="button" class="btn-pill btn-light" onclick="closeModal('modal-add-kuliner')">Batal</button>
+          <button type="submit" id="btn-submit-kuliner" class="btn-pill btn-dark">Simpan Tempat Makan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DETAIL TEMPAT MAKAN -->
+  <div class="modal-backdrop" id="modal-detail-kuliner">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-head">
+        <h3 id="detail-kuliner-name">Detail Tempat Makan</h3>
+        <button class="btn-close" onclick="closeModal('modal-detail-kuliner')">✕</button>
+      </div>
+      <div id="detail-kuliner-body">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TAMBAH & EDIT WISATA (KHUSUS TEMPAT WISATA) -->
+  <div class="modal-backdrop" id="modal-add-wisata">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modal-wisata-title">Tambah Tempat Wisata</h3>
+        <button class="btn-close" onclick="closeModal('modal-add-wisata')">✕</button>
+      </div>
+      <form id="form-add-wisata" onsubmit="handleSaveWisata(event)">
+        <input type="hidden" id="wisata-edit-id">
+        <div class="form-group">
+          <label>Nama Tempat Wisata *</label>
+          <input type="text" id="wisata-name" class="form-control" placeholder="Contoh: Kelingking Beach / Candi Borobudur" required>
+        </div>
+        <div class="form-group">
+          <label>Kota *</label>
+          <input type="text" id="wisata-city" class="form-control" placeholder="Contoh: Bali / Magelang / Yogyakarta" required>
+        </div>
+        <div class="form-group">
+          <label>Lokasi (Link Google Maps) *</label>
+          <input type="text" id="wisata-location" class="form-control" placeholder="Contoh: https://maps.app.goo.gl/... atau alamat maps" required>
+        </div>
+        <div class="form-group">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label style="margin-bottom:0;">Link Video (Bisa Lebih dari 1)</label>
+            <button type="button" class="btn-pill btn-light" style="font-size:11.5px; padding:3px 10px; border:1px solid var(--border);" onclick="addWisataVideoInput()">+ Tambah Video</button>
+          </div>
+          <div id="wisata-video-inputs-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+        <div class="form-group">
+          <label>Foto Tempat Wisata (Bisa Pilih Lebih dari 1 Foto)</label>
+          <label class="file-dropzone" for="wisata-photo-input">
+            <span id="wisata-file-label">📷 Klik untuk upload 1 atau lebih foto wisata (PNG, JPG)</span>
+            <input type="file" id="wisata-photo-input" accept="image/*" multiple onchange="handleWisataPhotosPreview(this)">
+          </label>
+          <div id="wisata-preview-gallery" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button type="button" class="btn-pill btn-light" onclick="closeModal('modal-add-wisata')">Batal</button>
+          <button type="submit" id="btn-submit-wisata" class="btn-pill btn-dark">Simpan Tempat Wisata</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DETAIL TEMPAT WISATA -->
+  <div class="modal-backdrop" id="modal-detail-wisata">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-head">
+        <h3 id="detail-wisata-name">Detail Tempat Wisata</h3>
+        <button class="btn-close" onclick="closeModal('modal-detail-wisata')">✕</button>
+      </div>
+      <div id="detail-wisata-body">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX FULLSCREEN GALERI -->
+  <div class="lightbox-backdrop" id="modal-lightbox" onclick="closeFullscreenLightbox(event)">
+    <button type="button" class="lightbox-close" onclick="closeFullscreenLightbox()" title="Tutup (Esc)">✕</button>
+    <button type="button" class="lightbox-nav-btn lightbox-prev" id="lightbox-btn-prev" onclick="lightboxPrev(event)" title="Foto Sebelumnya">❮</button>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="Fullscreen Foto">
+    </div>
+    <button type="button" class="lightbox-nav-btn lightbox-next" id="lightbox-btn-next" onclick="lightboxNext(event)" title="Foto Berikutnya">❯</button>
+    <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+  </div>
+
+  <!-- MODAL TAMBAH WISHLIST (BERBASIS DATA TEMPAT) -->
+  <div class="modal-backdrop" id="modal-add-wishlist">
+    <div class="modal-box" style="max-width: 540px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-head">
+        <h3>Tambah Wishlist Baru</h3>
+        <button class="btn-close" onclick="closeModal('modal-add-wishlist')">✕</button>
+      </div>
+      <form id="form-add-wishlist" onsubmit="handleSaveWishlist(event)">
+        <div class="form-group">
+          <label>Kategori *</label>
+          <select id="wishlist-entry-type" class="form-control" onchange="handleWishlistTypeChange(this.value)" required>
+            <option value="">-- Pilih Kategori --</option>
+            <option value="kuliner">Tempat Makan</option>
+            <option value="wisata">Tempat Wisata</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Nama Tempat *</label>
+          <select id="wishlist-place-select" class="form-control" onchange="handleWishlistPlaceChange(this.value)" required>
+            <option value="">-- Pilih Kategori Terlebih Dahulu --</option>
+          </select>
+          <div id="wishlist-place-helper"></div>
+        </div>
+
+        <!-- PREVIEW DETAIL LENGKAP TEMPAT (FOTO, GOOGLE MAPS, VIDEO) -->
+        <div id="wishlist-place-detail-preview" style="margin-bottom: 16px;"></div>
+
+        <div class="form-group">
+          <label>Tanggal Berangkat *</label>
+          <input type="date" id="wishlist-departure" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label>Catatan Rencana (Opsional)</label>
+          <textarea id="wishlist-notes" class="form-control" rows="2" placeholder="Contoh: Rencana pesan menu platter, berangkat pagi..."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button type="button" class="btn-pill btn-light" onclick="closeModal('modal-add-wishlist')">Batal</button>
+          <button type="submit" class="btn-pill btn-dark">Simpan Wishlist</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL KONFIRMASI CENTANG WISHLIST -->
+  <div class="modal-backdrop" id="modal-confirm-wishlist">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 26px 22px;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #E8F5E9; color: #2E7D32; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 14px;">
+        ✓
+      </div>
+      <h3 style="font-size: 18px; margin-bottom: 8px;">Apakah anda yakin?</h3>
+      <p id="confirm-wishlist-message" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 22px;">
+        Apakah anda yakin ingin menyelesaikan wishlist ini dan memindahkannya ke menu History?
+      </p>
+      <div style="display: flex; justify-content: center; gap: 12px;">
+        <button type="button" class="btn-pill btn-light" style="min-width: 90px; padding: 8px 18px;" onclick="confirmCheckWishlistNo()">Tidak</button>
+        <button type="button" class="btn-pill btn-dark" style="min-width: 90px; padding: 8px 18px; background: #169E5F;" onclick="confirmCheckWishlistYes()">Iya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETAIL WISHLIST (DARI KALENDER / LIST) -->
+  <div class="modal-backdrop" id="modal-detail-wishlist">
+    <div class="modal-box" style="max-width: 540px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-head">
+        <h3 id="detail-wishlist-name">Detail Rencana Wishlist</h3>
+        <button class="btn-close" onclick="closeModal('modal-detail-wishlist')">✕</button>
+      </div>
+      <div id="detail-wishlist-body">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETAIL HISTORY (DARI TABEL HISTORY) -->
+  <div class="modal-backdrop" id="modal-detail-history">
+    <div class="modal-box" style="max-width: 540px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-head">
+        <h3 id="detail-history-name">Detail History Kunjungan</h3>
+        <button class="btn-close" onclick="closeModal('modal-detail-history')">✕</button>
+      </div>
+      <div id="detail-history-body">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KONFIRMASI HAPUS GLOBAL -->
+  <div class="modal-backdrop" id="modal-confirm-delete">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 26px 22px;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #FEECEE; color: #D63333; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 14px;">
+        🗑️
+      </div>
+      <h3 style="font-size: 18px; margin-bottom: 8px;">Apakah anda yakin?</h3>
+      <p id="confirm-delete-message" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 22px;">
+        Data yang dihapus tidak dapat dikembalikan.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 12px;">
+        <button type="button" class="btn-pill btn-light" style="min-width: 90px; padding: 8px 18px;" onclick="closeConfirmDelete()">Tidak</button>
+        <button type="button" class="btn-pill btn-dark" style="min-width: 90px; padding: 8px 18px; background: #D63333;" onclick="executeConfirmDelete()">Iya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KONFIRMASI LOG OUT KHUSUS (ICON LOGOUT PINTU KELUAR) -->
+  <div class="modal-backdrop" id="modal-confirm-logout">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 26px 22px;">
+      <div style="width: 56px; height: 56px; border-radius: 50%; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </div>
+      <h3 style="font-size: 18px; margin-bottom: 8px;">Apakah anda yakin?</h3>
+      <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 22px;">
+        Apakah anda yakin ingin keluar dari akun Jelajah Ku?
+      </p>
+      <div style="display: flex; justify-content: center; gap: 12px;">
+        <button type="button" class="btn-pill btn-light" style="min-width: 90px; padding: 8px 18px;" onclick="closeModal('modal-confirm-logout')">Tidak</button>
+        <button type="button" class="btn-pill btn-dark" style="min-width: 90px; padding: 8px 18px; background: #DC2626;" onclick="executeLogout()">Iya</button>
+      </div>
+    </div>
+  </div>
+
+    <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/lightbox.js"></script>
+  <script src="js/kuliner.js"></script>
+  <script src="js/wisata.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
