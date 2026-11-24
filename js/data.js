@@ -8,15 +8,51 @@ const state = {
   history: []
 };
 
+function updateDbStatusBadge(status, text) {
+  const badges = [
+    document.getElementById('db-status-badge'),
+    document.getElementById('db-status-badge-mobile')
+  ];
+
+  badges.forEach(b => {
+    if (!b) return;
+    if (status === 'connected') {
+      b.style.background = '#E8F5E9';
+      b.style.color = '#169E5F';
+      b.innerHTML = '<span style="width:7px; height:7px; border-radius:50%; background:#169E5F;"></span> ' + (text || 'Database Terhubung');
+    } else if (status === 'error') {
+      b.style.background = '#FEECEE';
+      b.style.color = '#D63333';
+      b.innerHTML = '<span style="width:7px; height:7px; border-radius:50%; background:#D63333;"></span> ' + (text || 'Database Belum Terhubung');
+    } else {
+      b.style.background = '#F1F5F9';
+      b.style.color = '#64748B';
+      b.innerHTML = '<span style="width:7px; height:7px; border-radius:50%; background:#94A3B8;"></span> Memeriksa...';
+    }
+  });
+}
+
 // Ambil data dari Supabase jika koneksi aktif
 async function loadDataFromSupabase() {
-  if (!supabaseClient) return false;
+  if (!supabaseClient) {
+    updateDbStatusBadge('error', 'Database Belum Terhubung (Key kosong)');
+    return false;
+  }
   try {
     const [placesRes, wishlistRes, historyRes] = await Promise.all([
       supabaseClient.from('places').select('*').order('created_at', { ascending: false }),
       supabaseClient.from('wishlist').select('*').order('departure_date', { ascending: true }),
       supabaseClient.from('history').select('*').order('completed_at', { ascending: false })
     ]);
+
+    if (placesRes.error || wishlistRes.error || historyRes.error) {
+      const err = placesRes.error || wishlistRes.error || historyRes.error;
+      console.error('Supabase query error:', err);
+      updateDbStatusBadge('error', 'Izin Akses Database Ditolak');
+      return false;
+    }
+
+    updateDbStatusBadge('connected', 'Database Terhubung');
 
     if (placesRes.data) {
       state.places = placesRes.data.map(p => ({
@@ -65,6 +101,7 @@ async function loadDataFromSupabase() {
     return true;
   } catch (err) {
     console.error('Error fetching data from Supabase:', err);
+    updateDbStatusBadge('error', 'Koneksi Database Gagal');
     return false;
   }
 }

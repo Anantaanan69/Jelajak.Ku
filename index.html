@@ -137,6 +137,10 @@
           <div class="brand-icon mobile-header-icon">J</div>
           <span class="mobile-brand-title">Jelajah Ku</span>
         </div>
+        <!-- STATUS DB MOBILE -->
+        <span id="db-status-badge-mobile" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; padding:3px 8px; border-radius:12px; background:#F1F5F9; color:#64748B;">
+          <span style="width:7px; height:7px; border-radius:50%; background:#94A3B8;"></span> Memeriksa...
+        </span>
         <!-- TOMBOL HIDE/UNHIDE HANYA ICON TANPA KATA-KATA -->
         <button type="button" id="btn-mobile-menu-toggle" class="btn-mobile-menu-toggle" onclick="toggleMobileMenu()" title="Tampilkan / Sembunyikan Menu">
           <svg id="mobile-menu-toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -197,8 +201,11 @@
     <div id="mobile-menu-backdrop" class="mobile-menu-backdrop" onclick="toggleMobileMenu()"></div>
     <!-- TOP HEADER ROW SEPERTI REFERENSI GAMBAR -->
     <header class="app-topbar">
-      <div class="topbar-left">
+      <div class="topbar-left" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
         <span class="topbar-welcome">Rencanakan dan catat perjalanan serta kuliner favoritmu</span>
+        <span id="db-status-badge" style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:12px; background:#F1F5F9; color:#64748B;">
+          <span style="width:7px; height:7px; border-radius:50%; background:#94A3B8;"></span> Memeriksa database...
+        </span>
       </div>
       <div class="topbar-right"></div>
     </header>
